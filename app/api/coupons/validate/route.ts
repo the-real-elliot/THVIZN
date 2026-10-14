@@ -10,7 +10,6 @@ export async function POST(request: Request) {
     const result = validateCoupon(code, Number(subtotal) || 0);
     return NextResponse.json({
       success: result.valid,
-      valid: result.valid,
       ...result
     });
   } catch {
