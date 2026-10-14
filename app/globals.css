@@ -1,0 +1,555 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&family=Syne:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ================= SELF-HOSTED OFFLINE BRAND FONTS (ZERO EXTERNAL CDN BLOCKING) ================= */
+/* 1. Thinoo (Clean Rounded Geometric Sans-Serif) */
+@font-face {
+  font-family: 'Thinoo';
+  src: url('/fonts/Thinoo-Thin.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Thinoo';
+  src: url('/fonts/Thinoo-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. Soria (Haute-Couture Art Nouveau Editorial Serif) */
+@font-face {
+  font-family: 'Soria';
+  src: url('/fonts/Soria-Bold.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/78809/Soria-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Soria';
+  src: url('/fonts/Soria-Bold.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/78809/Soria-Bold.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. Outfit (Smooth Ultra-Clean Geometric Sans) */
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Bold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Bold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Bold.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 4. Syne (Aesthetic High-Fashion Parisian Display Sans) */
+@font-face {
+  font-family: 'Syne';
+  src: url('/fonts/Syne-Bold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Syne';
+  src: url('/fonts/Syne-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Syne';
+  src: url('/fonts/Syne-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+  --font-display: 'Outfit', 'Syne', system-ui, sans-serif;
+  --font-fashion: 'Syne', 'Outfit', system-ui, sans-serif;
+  --font-tech: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  --font-mono: 'Outfit', 'Plus Jakarta Sans', monospace;
+  --font-thinoo: 'Thinoo', 'Outfit', sans-serif;
+  --font-soria: 'Soria', serif;
+}
+
+:root {
+  --background: #09090e;
+  --foreground: #f4f4f6;
+  --brand-red: #9f1239;
+  --brand-dark: #000000;
+  --brand-card: #0e0e15;
+  --brand-muted: #8e8e9a;
+  --brand-border: #1f1f2a;
+  --font-display: 'Outfit', 'Syne', -apple-system, sans-serif;
+  --font-fashion: 'Syne', 'Outfit', -apple-system, sans-serif;
+  --font-tech: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Outfit', -apple-system, sans-serif;
+  --font-thinoo: 'Thinoo', 'Outfit', sans-serif;
+  --font-soria: 'Soria', serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Primary Smooth Luxury Streetwear Display Font (Outfit & Syne - fluid curves, zero harsh square boxiness) */
+.font-display {
+  font-family: 'Outfit', 'Syne', 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+  letter-spacing: -0.025em;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Avant-Garde Parisian High-Fashion Runway Aesthetic (Syne Display) */
+.font-fashion,
+.font-aesthetic-fashion {
+  font-family: 'Syne', 'Outfit', -apple-system, sans-serif !important;
+  letter-spacing: -0.02em;
+}
+
+/* Wide Smooth Aesthetic (Elegant luxury tracking with smooth circular letters for THVIZN Brandmark) */
+.font-aesthetic-wide {
+  font-family: 'Outfit', -apple-system, sans-serif !important;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.font-aesthetic-display {
+  font-family: 'Syne', 'Outfit', sans-serif !important;
+  letter-spacing: -0.02em;
+}
+
+.font-smooth-display {
+  font-family: 'Outfit', 'Syne', -apple-system, sans-serif !important;
+  letter-spacing: -0.025em;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Thinoo: Clean, Rounded Geometric Sans-Serif (by Nauman Altaf) */
+.font-thinoo {
+  font-family: 'Thinoo', 'Outfit', sans-serif !important;
+  letter-spacing: 0.12em;
+}
+
+.font-thinoo-bold {
+  font-family: 'Thinoo', 'Outfit', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.font-thinoo-thin {
+  font-family: 'Thinoo', 'Outfit', sans-serif !important;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+}
+
+/* Soria: Art Nouveau / Didot Haute Couture Display Serif (by Dani Bermejo) */
+.font-soria {
+  font-family: 'Soria', 'Outfit', serif !important;
+  letter-spacing: 0.08em;
+}
+
+/* Smooth Badges, Specs, Subtitles, Navigation */
+.font-tech {
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif !important;
+  letter-spacing: 0.06em;
+  font-feature-settings: "tnum";
+}
+
+.font-body {
+  font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, sans-serif !important;
+  letter-spacing: -0.01em;
+}
+
+/* Override font-mono to be smooth and aesthetic with tabular numbers */
+.font-mono {
+  font-family: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+  font-feature-settings: "tnum";
+  letter-spacing: 0.03em;
+}
+
+/* High-Contrast Crisp Text Shadow Utilities - Protects text from blurring into light gradients */
+.text-contrast-crisp {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 2px 8px rgba(0, 0, 0, 0.85);
+}
+
+.text-contrast-deep {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.98), 0 4px 14px rgba(0, 0, 0, 0.9);
+}
+
+/* Glassmorphism & High-End Streetwear Depth Utilities */
+.glass-panel {
+  background: rgba(10, 10, 15, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(18, 18, 24, 0.85);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85), 0 0 25px -10px rgba(159, 18, 57, 0.15);
+  transform: translateY(-3px);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Custom dark scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050507;
+}
+::-webkit-scrollbar-thumb {
+  background: #272730;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9f1239;
+}
+
+/* Gothic luxury noir atmosphere (replaces gaming grid lines) */
+.bg-street-grid-dark {
+  background: radial-gradient(ellipse at 50% 15%, rgba(26, 26, 36, 0.45) 0%, rgba(5, 5, 7, 0.98) 75%, #050507 100%);
+}
+
+.bg-radial-crimson {
+  background: radial-gradient(circle at 50% 50%, rgba(159, 18, 57, 0.14) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.bg-radial-star-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25) 0%, rgba(159, 18, 57, 0.1) 45%, transparent 70%);
+}
+
+/* ================= GOTHIC CONTINUOUS LEFT-TO-RIGHT RED WAVES INSIDE WHITE TEXT ================= */
+@keyframes redWaveFlowLeftToRight {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.tsunami-body {
+  font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+  background-image: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 18%,
+    #ff1744 26%,
+    #9f1239 34%,
+    #ff2e63 42%,
+    #ffffff 50%,
+    #ffffff 68%,
+    #ff1744 76%,
+    #9f1239 84%,
+    #ff2e63 92%,
+    #ffffff 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: redWaveFlowLeftToRight 4.8s linear infinite;
+  will-change: background-position;
+  display: inline-block;
+  filter: none;
+}
+
+.tsunami-undertow {
+  font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 16%,
+    rgba(255, 23, 68, 0.85) 28%,
+    rgba(159, 18, 57, 0.95) 36%,
+    rgba(255, 71, 105, 0.75) 44%,
+    transparent 55%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: redWaveFlowLeftToRight 3.4s linear infinite;
+  will-change: background-position;
+  filter: none;
+}
+
+.tsunami-crest {
+  font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 24%,
+    rgba(255, 255, 255, 0.9) 29%,
+    rgba(255, 255, 255, 1) 32%,
+    transparent 37%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: redWaveFlowLeftToRight 4.8s linear infinite;
+  will-change: background-position;
+  filter: none;
+}
+
+/* Sleek modern display container (subtle 8px square geometry with soft shadow depth) */
+.curved-landscape-card {
+  border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.curved-landscape-screen {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), inset 0 0 50px rgba(0, 0, 0, 0.6);
+  perspective: 1200px;
+}
+
+/* Route Change Cinematic Transition (Luxury Blur, Spring Slide & Morph) */
+@keyframes routeEnter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.992);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+.animate-route-enter {
+  animation: routeEnter 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+.animate-page-enter {
+  animation: routeEnter 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1.005);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.015);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Infinite Marquee moving LEFT */
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Infinite Marquee moving RIGHT */
+@keyframes marquee-right {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0%, 0, 0); }
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+/* ================= METALLIC & CHROME EDITORIAL TYPOGRAPHY ================= */
+.text-3d-chrome {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f8fafc 30%,
+    #e2e8f0 55%,
+    #cbd5e1 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95)) drop-shadow(0 6px 18px rgba(0, 0, 0, 0.85));
+  letter-spacing: -0.025em;
+}
+
+.text-3d-editorial {
+  color: #ffffff;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 3px 8px rgba(0, 0, 0, 0.85),
+    0 8px 24px rgba(0, 0, 0, 0.95);
+  letter-spacing: -0.025em;
+}
+
+.text-3d-subtle {
+  color: #f4f4f6;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 3px 10px rgba(0, 0, 0, 0.85);
+}
+
+/* High-contrast legibility over dark noir backgrounds */
+.text-contrast-body {
+  color: #e4e4e7;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
+.text-contrast-sub {
+  color: #d4d4d8;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ================= LUXURY NOIR STREETWEAR SCROLLBAR ================= */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050507;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1c1c28;
+  border-radius: 9999px;
+  border: 2px solid #050507;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #36364e;
+}
+
+/* ================= TOUCH & MOBILE INTERACTION OPTIMIZATIONS ================= */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, input, select {
+  touch-action: manipulation;
+}
+
+/* ================= LARGE SCREEN, PC & 4K TV OPTIMIZATION ================= */
+@media (min-width: 1920px) {
+  .max-w-7xl {
+    max-width: 1536px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .max-w-7xl {
+    max-width: 1720px;
+  }
+  body {
+    font-size: 17px;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
