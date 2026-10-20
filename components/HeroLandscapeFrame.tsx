@@ -13,6 +13,10 @@ export default function HeroLandscapeFrame() {
   const customers = TOP_CUSTOMERS;
 
   useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia("(hover: hover)").matches) {
+      return;
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
@@ -56,7 +60,7 @@ export default function HeroLandscapeFrame() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full rounded-none border-y border-black/10 bg-white/75 backdrop-blur-2xl shadow-[0_15px_40px_rgba(0,0,0,0.06)] overflow-hidden flex flex-row items-stretch h-[410px] sm:h-[450px] md:h-[540px] lg:h-[590px] xl:h-[620px] select-none"
+      className="relative w-full rounded-none border-y border-black/10 bg-white/95 sm:bg-white/75 sm:backdrop-blur-2xl shadow-[0_15px_40px_rgba(0,0,0,0.06)] overflow-hidden flex flex-row items-stretch h-[410px] sm:h-[450px] md:h-[540px] lg:h-[590px] xl:h-[620px] select-none"
     >
       {/* ========================================================================= */}
       {/* LEFT COLUMN: LANDSCAPE PHOTO VISUAL (Streetwear / Urban Architecture)   */}

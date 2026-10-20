@@ -355,27 +355,25 @@ body {
   perspective: 1200px;
 }
 
-/* Route Change Cinematic Transition (Luxury Blur, Spring Slide & Morph) */
+/* Route Change Cinematic Transition (Buttery Smooth 60FPS Hardware-Accelerated) */
 @keyframes routeEnter {
   0% {
     opacity: 0;
-    transform: translate3d(0, 16px, 0) scale(0.992);
-    filter: blur(6px);
+    transform: translate3d(0, 10px, 0);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0px);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .animate-route-enter {
-  animation: routeEnter 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform, opacity, filter;
+  animation: routeEnter 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 
 .animate-page-enter {
-  animation: routeEnter 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: routeEnter 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes pulseGlow {

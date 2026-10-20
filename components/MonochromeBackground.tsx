@@ -12,36 +12,6 @@ import React, { useEffect, useRef, useState } from "react";
  * - Subtle 35mm micro-grain texture
  */
 export default function MonochromeBackground() {
-  const [scrollY, setScrollY] = useState(0);
-  const lastScrollY = useRef(0);
-  const rafId = useRef<number | null>(null);
-
-  useEffect(() => {
-    let ticking = false;
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      lastScrollY.current = currentScrollY;
-
-      if (!ticking) {
-        rafId.current = window.requestAnimationFrame(() => {
-          setScrollY(currentScrollY);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-    };
-  }, []);
-
-  const parallaxOffset = (scrollY * 0.15) % 600;
-
   return (
     <div
       aria-hidden="true"
@@ -65,9 +35,8 @@ export default function MonochromeBackground() {
 
       {/* 2. PRIMARY CELESTIAL WHITE DOME: Focused overhead white radiance */}
       <div
-        className="absolute inset-0 will-change-transform transition-transform duration-150 ease-out"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          transform: `translate3d(0, ${-parallaxOffset * 0.35}px, 0)`,
           background: `
             radial-gradient(ellipse 1150px 650px at 50% -60px, 
               #ffffff 0%, 
@@ -82,9 +51,8 @@ export default function MonochromeBackground() {
 
       {/* 3. CURVED WHITE CRESCENT ARC: Curved white horizon beam */}
       <div
-        className="absolute inset-0 will-change-transform pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          transform: `translate3d(0, ${-parallaxOffset * 0.28}px, 0)`,
           background: `
             radial-gradient(ellipse 1350px 420px at 50% 150px, 
               rgba(255, 255, 255, 0.80) 0%, 
@@ -98,9 +66,8 @@ export default function MonochromeBackground() {
 
       {/* 4. MID-VIEWPORT STUDIO SPOTLIGHT: Focused circular white spotlight illuminating drops */}
       <div
-        className="absolute inset-0 will-change-transform pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          transform: `translate3d(0, ${-parallaxOffset * 0.20}px, 0)`,
           background: `
             radial-gradient(circle 850px at 50% 48%, 
               rgba(255, 255, 255, 0.78) 0%, 
@@ -114,9 +81,8 @@ export default function MonochromeBackground() {
 
       {/* 5. DEEPER SCULPTED LATERAL & CORNER VIGNETTES: Darker stone-silver framing for visible contrast */}
       <div
-        className="absolute inset-0 will-change-transform pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          transform: `translate3d(0, ${-parallaxOffset * 0.12}px, 0)`,
           background: `
             radial-gradient(ellipse 42% 90% at 0% 50%, 
               rgba(142, 158, 180, 0.52) 0%, 
@@ -134,7 +100,7 @@ export default function MonochromeBackground() {
 
       {/* 6. LOWER BASE SHADING: Deepens the page bottom and footer area */}
       <div
-        className="absolute inset-0 will-change-transform pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background: `
             radial-gradient(ellipse 1100px 500px at 50% 100%, 

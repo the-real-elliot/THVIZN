@@ -34,7 +34,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div
-      className="group relative flex flex-col bg-white/90 backdrop-blur-xl rounded-md sm:rounded-lg overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)] border border-black/[0.08] hover:border-black/20 transition-all duration-400 ease-out"
+      className="group relative flex flex-col bg-white sm:bg-white/90 sm:backdrop-blur-xl rounded-md sm:rounded-lg overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)] border border-black/[0.08] hover:border-black/20 transition-all duration-300 ease-out"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -43,24 +43,9 @@ export default function ProductCard({ product }: { product: Product }) {
         href={`/product/${product.handle}`}
         className="relative aspect-3/4 w-full bg-[#f0f4f9] overflow-hidden block rounded-t-md sm:rounded-t-lg"
       >
-        {/* Subtle, calm atmospheric star backlight */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-          <div className="w-24 sm:w-36 h-24 sm:h-36 bg-radial-star-glow rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700" />
-          
-          <div className="absolute w-20 sm:w-28 h-10 sm:h-14 opacity-10 group-hover:opacity-25 transition-opacity duration-700">
-            <Image
-              src="/images/star-logo.png"
-              alt="Brand Halo"
-              fill
-              sizes="(max-width: 640px) 80px, 112px"
-              className="object-contain filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)]"
-            />
-          </div>
-        </div>
-
         {/* PRIMARY IMAGE (Base layer) */}
         <div
-          className={`absolute inset-0 z-10 transition-all duration-700 ease-out ${
+          className={`absolute inset-0 z-10 transition-all duration-500 ease-out ${
             hasAlternateImage
               ? "opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-105"
               : "opacity-100 scale-100 group-hover:scale-105"

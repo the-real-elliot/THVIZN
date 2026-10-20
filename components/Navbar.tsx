@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
 import { ShoppingBag, Search, X, ShieldCheck, Truck, Trophy, ChevronRight, MessageCircle, Copy, Check } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { totalItems, setIsCartOpen } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -16,7 +17,7 @@ export default function Navbar() {
 
   // Smooth High-End Scroll Hide/Show Top Bar Transition
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollYRef = React.useRef(0);
 
   useEffect(() => {
     let ticking = false;
@@ -25,23 +26,17 @@ export default function Navbar() {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
-          if (mobileMenuOpen) {
-            setIsNavbarVisible(true);
-            ticking = false;
-            return;
-          }
-
           if (currentScrollY < 30) {
             setIsNavbarVisible(true);
-          } else if (currentScrollY > lastScrollY && currentScrollY > 70) {
+          } else if (currentScrollY > lastScrollYRef.current && currentScrollY > 70) {
             // Scrolling DOWN -> smoothly hide top bar
             setIsNavbarVisible(false);
-          } else if (currentScrollY < lastScrollY) {
+          } else if (currentScrollY < lastScrollYRef.current) {
             // Scrolling UP -> smoothly show top bar
             setIsNavbarVisible(true);
           }
 
-          setLastScrollY(currentScrollY);
+          lastScrollYRef.current = currentScrollY;
           ticking = false;
         });
         ticking = true;
@@ -50,7 +45,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, mobileMenuOpen]);
+  }, []);
 
   const [settings, setSettings] = useState({
     announcementText: "FREE EXPRESS SHIPPING > ₹999 // USE CODE: TVZ10 FOR 10% OFF",
@@ -85,17 +80,26 @@ export default function Navbar() {
     }
   }, [mobileMenuOpen]);
 
-  // Lock body scroll and close on Escape when mobile menu is open
+  // Auto-close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll and close on Escape/back button when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") setMobileMenuOpen(false);
       };
+      const handlePopState = () => setMobileMenuOpen(false);
+
       window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("popstate", handlePopState);
       return () => {
         document.body.style.overflow = "";
         window.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener("popstate", handlePopState);
       };
     } else {
       document.body.style.overflow = "";
@@ -127,13 +131,14 @@ export default function Navbar() {
   };
 
   return (
-    <header className={`fixed top-0 inset-x-0 z-50 transition-transform duration-500 ease-in-out will-change-transform ${
-      isNavbarVisible ? "translate-y-0" : "-translate-y-full"
-    } ${
-      mobileMenuOpen
-        ? "bg-[#edf1f7] border-b border-black/[0.12]"
-        : "bg-[#e2e8f2]/90 backdrop-blur-2xl border-b border-black/[0.08] shadow-[0_10px_35px_rgba(0,0,0,0.06)]"
-    }`}>
+    <>
+      <header className={`fixed top-0 inset-x-0 z-50 transition-transform duration-300 ease-out will-change-transform ${
+        isNavbarVisible ? "translate-y-0" : "-translate-y-full"
+      } ${
+        mobileMenuOpen
+          ? "bg-[#edf1f7] border-b border-black/[0.12]"
+          : "bg-[#e2e8f2]/95 backdrop-blur-xl border-b border-black/[0.08] shadow-[0_10px_35px_rgba(0,0,0,0.06)]"
+      }`}>
       {/* Top Announcement Bar with Interactive Hover & Click-to-Copy (Curved Floating Landscape Pill) */}
       {settings.showAnnouncement && (
         <div className="px-4 pt-1 sm:pt-1.5 pb-0 flex justify-center">
@@ -310,7 +315,7 @@ export default function Navbar() {
 
       {/* Expandable Search Input for Mobile/Tablet */}
       {searchOpen && (
-        <div className="border-t border-black/[0.08] bg-white/95 backdrop-blur-2xl px-4 py-3 sm:px-8 animate-in slide-in-from-top-2 duration-200">
+        <div className="border-t border-black/[0.08] bg-white/95 backdrop-blur-xl px-4 py-3 sm:px-8 animate-in slide-in-from-top-2 duration-200">
           <form onSubmit={handleSearch} className="max-w-xl mx-auto flex items-center gap-2">
             <div className="relative flex-1">
               <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -349,208 +354,209 @@ export default function Navbar() {
           </form>
         </div>
       )}
+    </header>
 
-      {/* Mobile Luxury Overlay Drawer (Left Side Slide-In with Right Mosaic Backdrop like Cart) */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-[999] overflow-hidden">
-          {/* Right Backdrop with smooth blur fade and mosaic effect like cart */}
-          <div
-            className="absolute inset-0 bg-black/75 backdrop-blur-md transition-opacity duration-300"
-            onClick={() => setMobileMenuOpen(false)}
-          />
+    {/* Mobile Luxury Overlay Drawer rendered OUTSIDE <header> at root viewport level (Zero Glitch / Zero Clip) */}
+    {mobileMenuOpen && (
+      <div className="md:hidden fixed inset-0 z-[99999] overflow-hidden flex">
+        {/* Fullscreen Backdrop - Closes immediately on Tap */}
+        <div
+          className="fixed inset-0 bg-black/60 transition-opacity duration-200 cursor-pointer"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
 
-          <div className="fixed inset-y-0 left-0 max-w-full flex pr-10">
-            <div className="w-screen max-w-xs sm:max-w-sm bg-[#edf2f8]/98 backdrop-blur-2xl border-r border-black/[0.12] shadow-[0_0_60px_rgba(0,0,0,0.18)] flex flex-col justify-between text-[#090a10] animate-in slide-in-from-left duration-300 ease-out h-full overflow-y-auto">
-              {/* Top Bar inside Left Drawer */}
-              <div className="h-16 px-4 sm:px-6 flex items-center justify-between border-b border-black/[0.08] shrink-0 bg-[#e5ecf4]/90">
-                <Link
-                  href="/"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center group cursor-pointer"
-                  aria-label="THVIZN Home"
-                >
-                  <div className="relative w-24 h-10 opacity-90 hover:opacity-100 transition-opacity filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.12)]">
-                    <Image
-                      src="/images/star-logo.png"
-                      alt="THVIZN Brandmark"
-                      fill
-                      sizes="96px"
-                      className="object-contain"
-                      priority
-                    />
-                  </div>
-                </Link>
+        <div className="relative z-10 w-[84vw] max-w-xs sm:max-w-sm bg-[#edf2f8] border-r border-black/15 shadow-[0_0_60px_rgba(0,0,0,0.35)] flex flex-col justify-between text-[#090a10] h-full overflow-y-auto overscroll-contain animate-in slide-in-from-left duration-250 ease-out select-none">
+          {/* Top Bar inside Left Drawer */}
+          <div className="h-16 px-4 sm:px-6 flex items-center justify-between border-b border-black/[0.08] shrink-0 bg-[#e5ecf4]">
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center group cursor-pointer"
+              aria-label="THVIZN Home"
+            >
+              <div className="relative w-24 h-10 opacity-95 hover:opacity-100 transition-opacity filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.12)]">
+                <Image
+                  src="/images/star-logo.png"
+                  alt="THVIZN Brandmark"
+                  fill
+                  sizes="96px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </Link>
 
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-9 h-9 flex items-center justify-center text-[#090a10] bg-black/[0.06] hover:bg-black/[0.12] active:scale-95 rounded-full transition-all cursor-pointer"
+              aria-label="Close Mobile Menu"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          <div className="flex-1 px-5 py-6 space-y-6 flex flex-col justify-between">
+            <div className="space-y-6">
+              {/* Mobile Search Bar */}
+              <form onSubmit={handleSearch} className="relative">
+                <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                <input
+                  type="text"
+                  placeholder="Search drops, hoodies, tees..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-white border border-black/15 focus:border-black/60 focus:bg-white rounded-xl pl-10 pr-9 py-2.5 text-xs text-[#090a10] placeholder-slate-500 outline-none transition-all shadow-sm"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </form>
+
+              {/* Quick Category Shortcuts */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-[11px] font-bold uppercase tracking-wider">
                 <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-9 h-9 flex items-center justify-center text-[#090a10] bg-black/[0.06] hover:bg-black/[0.12] active:scale-95 rounded-full transition-all cursor-pointer"
-                  aria-label="Close Mobile Menu"
+                  type="button"
+                  onClick={() => handleNav("/shop")}
+                  className="bg-[#090a10] text-white px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
                 >
-                  <X size={18} />
+                  All Drops
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNav("/shop?cat=tees")}
+                  className="bg-white text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
+                >
+                  Tees
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNav("/shop?cat=hoodies")}
+                  className="bg-white text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
+                >
+                  Hoodies
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNav("/shop?cat=acid")}
+                  className="bg-white text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
+                >
+                  Acid Wash
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNav("/shop?cat=bottoms")}
+                  className="bg-white text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
+                >
+                  Bottoms
                 </button>
               </div>
 
-              <div className="flex-1 px-5 py-6 space-y-6 flex flex-col justify-between">
-                <div className="space-y-6">
-                  {/* Mobile Search Bar */}
-                  <form onSubmit={handleSearch} className="relative">
-                    <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                    <input
-                      type="text"
-                      placeholder="Search drops, hoodies, tees..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full bg-white/90 border border-black/15 focus:border-black/60 focus:bg-white rounded-xl pl-10 pr-9 py-2.5 text-xs text-[#090a10] placeholder-slate-500 outline-none transition-all shadow-sm"
-                    />
-                    {searchQuery && (
-                      <button
-                        type="button"
-                        onClick={() => setSearchQuery("")}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-black"
-                      >
-                        <X size={14} />
-                      </button>
-                    )}
-                  </form>
-
-                  {/* Quick Category Shortcuts */}
-                  <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none text-[11px] font-bold uppercase tracking-wider">
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/shop")}
-                      className="bg-[#090a10] text-white px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
-                    >
-                      All Drops
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/shop?cat=tees")}
-                      className="bg-white/90 text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
-                    >
-                      Tees
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/shop?cat=hoodies")}
-                      className="bg-white/90 text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
-                    >
-                      Hoodies
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/shop?cat=acid")}
-                      className="bg-white/90 text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
-                    >
-                      Acid Wash
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/shop?cat=bottoms")}
-                      className="bg-white/90 text-[#090a10] hover:bg-white border border-black/10 px-3.5 py-1.5 rounded-full whitespace-nowrap transition-colors cursor-pointer shadow-sm"
-                    >
-                      Bottoms
-                    </button>
+              {/* Menu Links with Staggered Typography & Index Badges */}
+              <nav className="flex flex-col space-y-1 text-sm font-bold uppercase tracking-wider divide-y divide-black/[0.06]">
+                <button
+                  type="button"
+                  onClick={() => handleNav("/")}
+                  className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-mono font-bold text-slate-500">01</span>
+                    <span className="text-lg sm:text-xl font-bold tracking-[0.14em]">HOME</span>
                   </div>
+                  <ChevronRight size={16} className="text-slate-400 group-hover:text-black group-hover:translate-x-1 transition-all" />
+                </button>
 
-                  {/* Menu Links with Staggered Typography & Index Badges */}
-                  <nav className="flex flex-col space-y-1 text-sm font-bold uppercase tracking-wider divide-y divide-black/[0.06]">
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/")}
-                      className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-mono font-bold text-slate-500">01</span>
-                        <span className="text-lg sm:text-xl font-bold tracking-[0.14em]">HOME</span>
-                      </div>
-                      <ChevronRight size={16} className="text-slate-400 group-hover:text-black group-hover:translate-x-1 transition-all" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/shop")}
-                      className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-mono font-bold text-slate-500">02</span>
-                        <span className="text-lg sm:text-xl font-bold tracking-[0.14em]">CATALOGUE</span>
-                      </div>
-                      <ChevronRight size={16} className="text-slate-400 group-hover:text-black group-hover:translate-x-1 transition-all" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/leaderboard")}
-                      className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-mono font-bold text-slate-500">03</span>
-                        <span className="text-lg sm:text-xl font-bold tracking-[0.14em] flex items-center gap-2">
-                          <span>TOP 5</span>
-                          <span className="text-[8px] font-bold text-[#090a10] bg-black/[0.06] border border-black/10 px-2 py-0.5 rounded-full flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-slate-700 animate-pulse" />
-                            LIVE
-                          </span>
-                        </span>
-                      </div>
-                      <Trophy size={16} className="text-slate-600 group-hover:text-black transition-colors" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/track")}
-                      className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-mono font-bold text-slate-500">04</span>
-                        <span className="text-lg sm:text-xl font-bold tracking-[0.14em] flex items-center gap-2">
-                          <span>{deviceOrdersCount > 0 ? "MY ORDERS" : "TRACK ORDER"}</span>
-                          {deviceOrdersCount > 0 && (
-                            <span className="text-[9px] font-mono font-black text-white bg-[#090a10] px-2 py-0.5 rounded-full">
-                              {deviceOrdersCount} ON PHONE
-                            </span>
-                          )}
-                        </span>
-                      </div>
-                      <Truck size={16} className="text-slate-600 group-hover:text-black transition-colors" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleNav("/contact")}
-                      className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-mono font-bold text-slate-500">05</span>
-                        <span className="text-lg sm:text-xl font-bold tracking-[0.14em]">CUSTOMER CARE</span>
-                      </div>
-                      <MessageCircle size={16} className="text-slate-600 group-hover:text-black transition-colors" />
-                    </button>
-                  </nav>
-                </div>
-
-                {/* Bottom Fast VIP Actions for Mobile */}
-                <div className="pt-5 border-t border-black/[0.08] space-y-3">
-                  <a
-                    href="https://wa.me/919876543210?text=Hi%20THVIZN,%20I%20need%20help%20with%20an%20order"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-emerald-100/80 border border-emerald-500/30 text-emerald-900 font-bold text-xs uppercase tracking-wider hover:bg-emerald-200/80 transition-colors shadow-sm"
-                  >
-                    <MessageCircle size={16} className="text-[#25D366]" />
-                    <span>WHATSAPP VIP HELP</span>
-                  </a>
-
-                  <div className="text-center text-[10px] text-slate-500 uppercase tracking-widest font-mono">
-                    THVIZN // ARCHIVE FW26 • MUMBAI / TOKYO
+                <button
+                  type="button"
+                  onClick={() => handleNav("/shop")}
+                  className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-mono font-bold text-slate-500">02</span>
+                    <span className="text-lg sm:text-xl font-bold tracking-[0.14em]">CATALOGUE</span>
                   </div>
-                </div>
+                  <ChevronRight size={16} className="text-slate-400 group-hover:text-black group-hover:translate-x-1 transition-all" />
+                </button>
 
+                <button
+                  type="button"
+                  onClick={() => handleNav("/leaderboard")}
+                  className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-mono font-bold text-slate-500">03</span>
+                    <span className="text-lg sm:text-xl font-bold tracking-[0.14em] flex items-center gap-2">
+                      <span>TOP 5</span>
+                      <span className="text-[8px] font-bold text-[#090a10] bg-black/[0.06] border border-black/10 px-2 py-0.5 rounded-full flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-700 animate-pulse" />
+                        LIVE
+                      </span>
+                    </span>
+                  </div>
+                  <Trophy size={16} className="text-slate-600 group-hover:text-black transition-colors" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleNav("/track")}
+                  className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-mono font-bold text-slate-500">04</span>
+                    <span className="text-lg sm:text-xl font-bold tracking-[0.14em] flex items-center gap-2">
+                      <span>{deviceOrdersCount > 0 ? "MY ORDERS" : "TRACK ORDER"}</span>
+                      {deviceOrdersCount > 0 && (
+                        <span className="text-[9px] font-mono font-black text-white bg-[#090a10] px-2 py-0.5 rounded-full">
+                          {deviceOrdersCount} ON PHONE
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                  <Truck size={16} className="text-slate-600 group-hover:text-black transition-colors" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleNav("/contact")}
+                  className="w-full flex items-center justify-between py-3.5 text-[#090a10] hover:text-slate-600 group transition-colors text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-mono font-bold text-slate-500">05</span>
+                    <span className="text-lg sm:text-xl font-bold tracking-[0.14em]">CUSTOMER CARE</span>
+                  </div>
+                  <MessageCircle size={16} className="text-slate-600 group-hover:text-black transition-colors" />
+                </button>
+              </nav>
+            </div>
+
+            {/* Bottom Fast VIP Actions for Mobile */}
+            <div className="pt-5 border-t border-black/[0.08] space-y-3">
+              <a
+                href="https://wa.me/919876543210?text=Hi%20THVIZN,%20I%20need%20help%20with%20an%20order"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-emerald-100/80 border border-emerald-500/30 text-emerald-900 font-bold text-xs uppercase tracking-wider hover:bg-emerald-200/80 transition-colors shadow-sm"
+              >
+                <MessageCircle size={16} className="text-[#25D366]" />
+                <span>WHATSAPP VIP HELP</span>
+              </a>
+
+              <div className="text-center text-[10px] text-slate-500 uppercase tracking-widest font-mono">
+                THVIZN // ARCHIVE FW26 • MUMBAI / TOKYO
               </div>
             </div>
+
           </div>
         </div>
-      )}
-    </header>
-  );
+      </div>
+    )}
+  </>
+);
 }
