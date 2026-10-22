@@ -112,10 +112,10 @@ export default function ProductDetailPage({
         <span className="text-[#090a10] font-black line-clamp-1">{product.name}</span>
       </nav>
 
-      {/* Main Grid: 2-Column Photo Gallery on Left + Sticky Purchase Box on Right (TheSagacity reference) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start relative">
-        {/* ================= LEFT SIDE: 2-COLUMN PHOTO GALLERY (COLLAR, QUALITY, ARMS, SHOULDERS, ETC.) ================= */}
-        <div className="lg:col-span-7 w-full">
+      {/* Main Grid: 2-Column on Mobile (Photos Left, Details Left-Aligned on Right) + 12-Column on PC */}
+      <div className="grid grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-6 items-start relative">
+        {/* ================= LEFT SIDE: PHOTO GALLERY ================= */}
+        <div className="col-span-1 lg:col-span-7 w-full">
           <ProductZoomGallery
             shots={detailShots}
             productName={product.name}
@@ -124,85 +124,84 @@ export default function ProductDetailPage({
           />
         </div>
 
-        {/* ================= RIGHT SIDE: STICKY PRODUCT PURCHASE & SPECIFICATIONS FORM ================= */}
-        <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28 lg:self-start bg-white/95 backdrop-blur-xl p-6 sm:p-7 rounded-2xl border border-black/10 shadow-[0_10px_35px_rgba(0,0,0,0.05)]">
+        {/* ================= RIGHT SIDE: STICKY PRODUCT PURCHASE & SPECIFICATIONS FORM (TEXT LEFT) ================= */}
+        <div className="col-span-1 lg:col-span-5 space-y-3.5 sm:space-y-6 lg:sticky lg:top-28 lg:self-start bg-white/95 backdrop-blur-xl p-3 sm:p-7 rounded-xl sm:rounded-2xl border border-black/10 shadow-[0_10px_35px_rgba(0,0,0,0.05)] text-left">
           {/* Header & Category Badge */}
           <div>
-            <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="text-[10px] font-mono font-black tracking-widest uppercase bg-black/5 text-[#090a10] px-2.5 py-1 rounded-full border border-black/10">
-                {product.category} // {product.gsm} GSM HEAVYWEIGHT
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1.5 sm:mb-2">
+              <span className="text-[8px] sm:text-[10px] font-mono font-black tracking-widest uppercase bg-black/5 text-[#090a10] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-black/10 w-fit">
+                {product.category} // {product.gsm} GSM
               </span>
               {product.inStock ? (
-                <span className="text-[10px] font-mono text-emerald-700 font-bold flex items-center gap-1">
+                <span className="text-[8px] sm:text-[10px] font-mono text-emerald-700 font-bold flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
-                  IN STOCK ({product.stockCount} AVAILABLE)
+                  IN STOCK
                 </span>
               ) : (
-                <span className="text-[10px] font-mono text-red-600 font-bold flex items-center gap-1 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
-                  OUT OF STOCK // SOLD OUT
+                <span className="text-[8px] sm:text-[10px] font-mono text-red-600 font-bold flex items-center gap-1 bg-red-50 border border-red-200 px-1.5 py-0.5 rounded-full w-fit">
+                  SOLD OUT
                 </span>
               )}
             </div>
 
             {/* Title */}
-            <h1 className="text-2xl sm:text-3xl font-display font-black uppercase tracking-tight block leading-tight text-[#090a10]">
+            <h1 className="text-sm sm:text-2xl md:text-3xl font-display font-black uppercase tracking-tight block leading-tight text-[#090a10]">
               {product.name}
             </h1>
 
             {/* Reviews Rating Stars */}
-            <div className="flex items-center gap-2 mt-2.5">
+            <div className="flex items-center gap-1.5 mt-1.5 sm:mt-2.5">
               <div className="flex items-center text-amber-500">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
+                  <Star key={i} size={11} className="fill-amber-400 text-amber-400 sm:w-3.5 sm:h-3.5" />
                 ))}
               </div>
-              <span className="text-xs font-mono font-bold text-slate-700">
-                4.9 // 28 Verified Streetwear Reviews
+              <span className="text-[9.5px] sm:text-xs font-mono font-bold text-slate-700">
+                4.9 (28 reviews)
               </span>
             </div>
 
             {/* Price Row */}
-            <div className="flex items-baseline gap-3 mt-3.5 pt-3 border-t border-black/[0.08]">
-              <span className="text-2xl sm:text-3xl font-black text-[#090a10] font-mono tracking-tight">
-                Rs. {product.price.toLocaleString("en-IN")}.00
+            <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mt-2 sm:mt-3.5 pt-2 sm:pt-3 border-t border-black/[0.08]">
+              <span className="text-base sm:text-2xl md:text-3xl font-black text-[#090a10] font-mono tracking-tight">
+                Rs. {product.price.toLocaleString("en-IN")}
               </span>
-              <span className="text-base text-slate-400 line-through font-mono">
-                Rs. {product.originalPrice.toLocaleString("en-IN")}.00
+              <span className="text-xs sm:text-base text-slate-400 line-through font-mono">
+                Rs. {product.originalPrice.toLocaleString("en-IN")}
               </span>
-              <span className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full tracking-wider font-mono">
-                SAVE {discountPercent}%
+              <span className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-[8.5px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full tracking-wider font-mono">
+                -{discountPercent}%
               </span>
             </div>
-            <p className="text-[10px] text-slate-500 mt-1 font-mono">
-              Inclusive of all taxes • Free express shipping over ₹999.
+            <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1 font-mono">
+              Inclusive of taxes • Free delivery &gt; ₹999
             </p>
           </div>
 
           {/* Sizing Section */}
-          <div className="pt-3 border-t border-black/[0.08]">
-            <div className="flex items-center justify-between mb-2.5">
-              <span className="text-xs font-black uppercase tracking-wider text-slate-800">
-                SELECT SIZE: <span className="text-[#090a10] font-mono font-extrabold">{selectedSize}</span>
+          <div className="pt-2 sm:pt-3 border-t border-black/[0.08]">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-800">
+                SIZE: <span className="text-[#090a10] font-mono font-extrabold">{selectedSize}</span>
               </span>
               <button
                 type="button"
                 onClick={() => setShowSizeChart(!showSizeChart)}
-                className="text-xs font-bold text-slate-600 hover:text-black flex items-center gap-1 transition-colors cursor-pointer"
+                className="text-[10px] sm:text-xs font-bold text-slate-600 hover:text-black flex items-center gap-1 transition-colors cursor-pointer"
               >
-                <Ruler size={13} />
-                <span className="underline underline-offset-4">Size Guide</span>
+                <Ruler size={11} className="sm:w-3.5 sm:h-3.5" />
+                <span className="underline underline-offset-4">Guide</span>
               </button>
             </div>
 
             {/* Size Pills */}
-            <div className="flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2.5">
               {product.sizes.map((size) => (
                 <button
                   key={size}
                   type="button"
                   onClick={() => setSelectedSize(size)}
-                  className={`min-w-12 h-11 px-3.5 rounded-lg font-tech font-bold text-xs uppercase transition-all duration-200 border cursor-pointer ${
+                  className={`min-w-8 h-8 sm:min-w-12 sm:h-11 px-2 sm:px-3.5 rounded-md sm:rounded-lg font-tech font-bold text-[10px] sm:text-xs uppercase transition-all duration-200 border cursor-pointer ${
                     selectedSize === size
                       ? "bg-[#090a10] text-white border-black ring-2 ring-black/15 shadow-sm scale-102 font-black"
                       : "bg-white hover:bg-slate-100 text-slate-800 border-black/15 hover:border-black/35 shadow-2xs"
@@ -215,10 +214,10 @@ export default function ProductDetailPage({
 
             {/* Size Chart Modal */}
             {showSizeChart && (
-              <div className="mt-3 p-4 bg-slate-50 border border-black/10 rounded-xl space-y-2 text-xs animate-in fade-in duration-200">
+              <div className="mt-3 p-3 sm:p-4 bg-slate-50 border border-black/10 rounded-xl space-y-2 text-xs animate-in fade-in duration-200">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-[#090a10] uppercase tracking-wider font-mono text-[10px]">
-                    GARMENT DIMENSIONS (INCHES)
+                  <span className="font-bold text-[#090a10] uppercase tracking-wider font-mono text-[9px] sm:text-[10px]">
+                    DIMENSIONS (INCHES)
                   </span>
                   <button
                     type="button"
@@ -228,7 +227,7 @@ export default function ProductDetailPage({
                     ✕
                   </button>
                 </div>
-                <div className="grid grid-cols-4 gap-2 text-center border-t border-black/[0.08] pt-2 font-mono text-slate-700">
+                <div className="grid grid-cols-4 gap-1.5 text-center border-t border-black/[0.08] pt-2 font-mono text-[10px] sm:text-xs text-slate-700">
                   <span className="font-bold text-left text-slate-500">Size</span>
                   <span className="font-bold text-slate-500">Chest</span>
                   <span className="font-bold text-slate-500">Length</span>
@@ -238,36 +237,36 @@ export default function ProductDetailPage({
                   <span className="text-left font-bold">L</span><span>46&quot;</span><span>30&quot;</span><span>23&quot;</span>
                   <span className="text-left font-bold">XL</span><span>48&quot;</span><span>31&quot;</span><span>24&quot;</span>
                 </div>
-                <p className="text-[10px] text-slate-500 italic pt-1 font-mono">
-                  *True oversized drop-shoulder fit. Choose normal size for signature boxy streetwear silhouette.
+                <p className="text-[9px] sm:text-[10px] text-slate-500 italic pt-1 font-mono">
+                  *True oversized drop-shoulder fit.
                 </p>
               </div>
             )}
           </div>
 
-          {/* Quantity Stepper & ADD TO BAG (Matching thesagacity reference) */}
-          <div className="space-y-3 pt-2 border-t border-black/[0.08]">
-            <div className="flex items-center gap-3">
-              {/* Quantity Stepper: [- 1 +] */}
-              <div className="flex items-center bg-white border border-black/15 rounded-full p-1 shadow-2xs">
+          {/* Quantity Stepper & ADD TO BAG */}
+          <div className="space-y-2 sm:space-y-3 pt-2 border-t border-black/[0.08]">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+              {/* Quantity Stepper */}
+              <div className="flex items-center justify-between sm:justify-start bg-white border border-black/15 rounded-full p-0.5 sm:p-1 shadow-2xs">
                 <button
                   type="button"
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   aria-label="Decrease quantity"
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  <Minus size={14} />
+                  <Minus size={12} />
                 </button>
-                <span className="w-8 text-center font-mono font-bold text-sm text-[#090a10]">
+                <span className="w-6 sm:w-8 text-center font-mono font-bold text-xs sm:text-sm text-[#090a10]">
                   {quantity}
                 </span>
                 <button
                   type="button"
                   onClick={() => setQuantity((q) => Math.min(10, q + 1))}
                   aria-label="Increase quantity"
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  <Plus size={14} />
+                  <Plus size={12} />
                 </button>
               </div>
 
@@ -276,7 +275,7 @@ export default function ProductDetailPage({
                 type="button"
                 disabled={!product.inStock}
                 onClick={handleAddToCart}
-                className={`flex-1 py-3.5 px-6 rounded-full font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all ${
+                className={`flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 sm:gap-2 transition-all ${
                   !product.inStock
                     ? "bg-zinc-200 text-zinc-400 border border-zinc-300 cursor-not-allowed"
                     : added
@@ -288,24 +287,24 @@ export default function ProductDetailPage({
                   <span>OUT OF STOCK</span>
                 ) : added ? (
                   <>
-                    <Check size={16} />
-                    <span>ADDED TO BAG</span>
+                    <Check size={14} />
+                    <span>ADDED</span>
                   </>
                 ) : (
                   <>
-                    <ShoppingBag size={16} />
+                    <ShoppingBag size={14} />
                     <span>ADD TO BAG</span>
                   </>
                 )}
               </button>
             </div>
 
-            {/* Full-width BUY IT NOW CTA */}
+            {/* BUY IT NOW CTA */}
             <button
               type="button"
               disabled={!product.inStock}
               onClick={handleBuyNow}
-              className={`w-full py-4 px-6 rounded-full font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-md transition-all ${
+              className={`w-full py-2.5 sm:py-4 px-3 sm:px-6 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-2 shadow-md transition-all ${
                 !product.inStock
                   ? "bg-zinc-300 text-zinc-500 cursor-not-allowed"
                   : "bg-[#090a10] hover:bg-black text-white hover:scale-[1.01] active:scale-95 cursor-pointer"
@@ -315,7 +314,7 @@ export default function ProductDetailPage({
                 <span>ITEM SOLD OUT</span>
               ) : (
                 <>
-                  <Zap size={16} />
+                  <Zap size={14} />
                   <span>BUY IT NOW</span>
                 </>
               )}

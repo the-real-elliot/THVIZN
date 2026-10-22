@@ -270,13 +270,13 @@ export default function ProductZoomGallery({
         </div>
 
         {/* Thumbnail Strip for Quick Tap */}
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
           {shots.map((shot, idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => setMobileIndex(idx)}
-              className={`relative w-16 h-20 rounded-md overflow-hidden border transition-all shrink-0 bg-[#f4f7fa] ${
+              className={`relative w-10 h-13 sm:w-16 sm:h-20 rounded-md overflow-hidden border transition-all shrink-0 bg-[#f4f7fa] ${
                 mobileIndex === idx
                   ? "border-[#090a10] ring-1 ring-black shadow-xs scale-102"
                   : "border-black/10 opacity-70"

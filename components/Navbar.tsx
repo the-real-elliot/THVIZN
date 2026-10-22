@@ -178,7 +178,7 @@ export default function Navbar() {
       )}
 
 
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-13 sm:h-15 md:h-16 flex items-center justify-between gap-3 sm:gap-4">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-13 sm:h-15 md:h-16 flex items-center justify-between gap-3 sm:gap-4 relative">
         {/* Left: Animated 3-Lines Streetwear Hamburger Trigger & Desktop Links */}
         <div className="flex items-center gap-6">
           <button
@@ -231,8 +231,12 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Center: Brand Logo (Crisp Red Star Eye Emblem) */}
-        <Link href="/" className="flex items-center justify-center group py-0.5" aria-label="THVIZN Home">
+        {/* Center: Brand Logo (Centered in Mobile View & Desktop) */}
+        <Link
+          href="/"
+          className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center md:static md:translate-x-0 group py-0.5 z-20"
+          aria-label="THVIZN Home"
+        >
           <div className="relative w-28 h-9 sm:w-36 sm:h-11 md:w-44 md:h-13 opacity-95 hover:opacity-100 transition-all duration-300 hover:scale-105 filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.12)]">
             <Image
               src="/images/star-logo.png"
@@ -361,12 +365,12 @@ export default function Navbar() {
       <div className="md:hidden fixed inset-0 z-[99999] overflow-hidden flex">
         {/* Fullscreen Backdrop - Closes immediately on Tap */}
         <div
-          className="fixed inset-0 bg-black/60 transition-opacity duration-200 cursor-pointer"
+          className="fixed inset-0 bg-black/60 animate-backdrop-fade cursor-pointer"
           onClick={() => setMobileMenuOpen(false)}
           aria-hidden="true"
         />
 
-        <div className="relative z-10 w-[84vw] max-w-xs sm:max-w-sm bg-[#edf2f8] border-r border-black/15 shadow-[0_0_60px_rgba(0,0,0,0.35)] flex flex-col justify-between text-[#090a10] h-full overflow-y-auto overscroll-contain animate-in slide-in-from-left duration-250 ease-out select-none">
+        <div className="relative z-10 w-[84vw] max-w-xs sm:max-w-sm bg-[#edf2f8] border-r border-black/15 shadow-[0_0_60px_rgba(0,0,0,0.35)] flex flex-col justify-between text-[#090a10] h-full overflow-y-auto overscroll-contain animate-mobile-drawer select-none">
           {/* Top Bar inside Left Drawer */}
           <div className="h-16 px-4 sm:px-6 flex items-center justify-between border-b border-black/[0.08] shrink-0 bg-[#e5ecf4]">
             <Link

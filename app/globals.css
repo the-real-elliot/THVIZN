@@ -469,17 +469,45 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #050507;
+  background: #edf2f7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1c1c28;
+  background: #cbd5e1;
   border-radius: 9999px;
-  border: 2px solid #050507;
+  border: 2px solid #edf2f7;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #36364e;
+  background: #94a3b8;
+}
+
+/* ================= SMOOTH MOBILE DRAWER TRANSITIONS ================= */
+@keyframes mobileDrawerSlideIn {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-mobile-drawer {
+  animation: mobileDrawerSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform;
+}
+
+.animate-backdrop-fade {
+  animation: backdropFadeIn 0.22s ease-out forwards;
 }
 
 /* ================= TOUCH & MOBILE INTERACTION OPTIMIZATIONS ================= */

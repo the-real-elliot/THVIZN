@@ -144,9 +144,9 @@ export default function HeroLandscapeFrame() {
         <div className="absolute -top-10 -right-10 w-36 h-36 bg-radial-star-glow rounded-full blur-2xl opacity-20 pointer-events-none" />
 
         {/* ----------------- MOBILE VIEW (< md): HIGHLY COMPACT 5-ROW LEADERBOARD ----------------- */}
-        <div className="flex md:hidden flex-col justify-between h-full w-full">
+        <div className="flex md:hidden flex-col h-full w-full">
           {/* Header */}
-          <div className="flex items-center justify-between pb-1.5 border-b border-black/[0.08]">
+          <div className="flex items-center justify-between pb-1.5 border-b border-black/[0.08] shrink-0">
             <div className="flex items-center gap-1 min-w-0">
               <div className="w-4 h-4 rounded-full bg-black/[0.06] border border-black/10 flex items-center justify-center text-[#090a10] shrink-0">
                 <Trophy size={9} />
@@ -162,15 +162,15 @@ export default function HeroLandscapeFrame() {
             </div>
           </div>
 
-          {/* All 5 Ranks: Sleek Micro-Rows with Zero Glitches & Zero Overflow */}
-          <div className="space-y-1.5 my-auto py-1">
+          {/* All 5 Ranks: Aligned UP at top, sleek minimal rows */}
+          <div className="mt-2 space-y-1.5 flex-1">
             {customers.slice(0, 5).map((cust) => (
               <div
                 key={cust.rank}
                 className={`flex items-center justify-between gap-1 px-2 py-1.5 rounded-md border transition-all ${
                   cust.rank === 1
-                    ? "bg-white border-black/20 shadow-2xs"
-                    : "bg-white/60 border-black/[0.07]"
+                    ? "bg-white border-black/25 shadow-2xs"
+                    : "bg-white/70 border-black/[0.08]"
                 }`}
               >
                 <div className="flex items-center gap-1 min-w-0">
@@ -196,7 +196,7 @@ export default function HeroLandscapeFrame() {
           </div>
 
           {/* Mobile Footer Link */}
-          <div className="pt-1 border-t border-black/[0.08] flex items-center justify-between text-[8.5px] font-bold">
+          <div className="mt-auto pt-1.5 border-t border-black/[0.08] flex items-center justify-between text-[8.5px] font-bold shrink-0">
             <span className="text-slate-500 uppercase tracking-wider font-mono">
               VERIFIED
             </span>
@@ -211,9 +211,9 @@ export default function HeroLandscapeFrame() {
         </div>
 
         {/* ----------------- DESKTOP VIEW (>= md): SLEEK CORNER-RIGHT HIGH DENSITY COLUMN ----------------- */}
-        <div className="hidden md:flex flex-col justify-between h-full w-full">
+        <div className="hidden md:flex flex-col h-full w-full">
           {/* Header */}
-          <div className="flex items-center justify-between pb-2.5 border-b border-black/[0.08]">
+          <div className="flex items-center justify-between pb-2.5 border-b border-black/[0.08] shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-full bg-black/[0.05] border border-black/10 flex items-center justify-center text-[#090a10] shadow-sm">
                 <Trophy size={13} />
@@ -234,15 +234,15 @@ export default function HeroLandscapeFrame() {
             </div>
           </div>
 
-          {/* High-Density Top 5 Rows */}
-          <div className="space-y-1.5 my-auto py-1">
+          {/* High-Density Top 5 Rows: Aligned UP right under header */}
+          <div className="mt-2.5 space-y-1.5 flex-1">
             {customers.slice(0, 5).map((cust) => (
               <div
                 key={cust.rank}
                 className={`p-2 rounded-lg border backdrop-blur-md transition-all ${
                   cust.rank === 1
                     ? "bg-white border-black/25 shadow-xs"
-                    : "bg-white/60 border-black/10 hover:border-black/20 hover:bg-white"
+                    : "bg-white/70 border-black/10 hover:border-black/20 hover:bg-white"
                 }`}
               >
                 <div className="flex items-center justify-between gap-1.5">
@@ -289,7 +289,7 @@ export default function HeroLandscapeFrame() {
           </div>
 
           {/* Desktop Footer Info & Link */}
-          <div className="pt-2 border-t border-black/[0.08] flex items-center justify-between text-[9.5px]">
+          <div className="mt-auto pt-2 border-t border-black/[0.08] flex items-center justify-between text-[9.5px] shrink-0">
             <span className="text-[8px] text-slate-500 font-tech truncate">
               UPDATED HOURLY
             </span>
